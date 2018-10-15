@@ -90,7 +90,7 @@ func (d *ESX5Driver) Stop(vmxPathLocal string) error {
 func (d *ESX5Driver) Register(vmxPathLocal string) error {
 	vmxPath := filepath.ToSlash(filepath.Join(d.outputDir, filepath.Base(vmxPathLocal)))
 	vmxPath = strings.Replace(vmxPath, " ", "\\ ", -1) // escape spaces
-	if err := d.upload(vmxPath, vmxPathLocal); err != nil {
+	if err := d.upload(fmt.Sprintf("\"%s\"", vmxPath), vmxPathLocal); err != nil {
 		return err
 	}
 	r, err := d.run(nil, "vim-cmd", "solo/registervm", fmt.Sprintf("\"%s\"", vmxPath))
